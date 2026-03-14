@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCaptureMVP — Project Overview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.8);
+            --border: rgba(56, 189, 248, 0.15);
+            --teal: #14b8a6;
+            --teal-glow: rgba(20, 184, 166, 0.3);
+            --cyan: #22d3ee;
+            --cyan-glow: rgba(34, 211, 238, 0.2);
+            --purple: #a855f7;
+            --purple-glow: rgba(168, 85, 247, 0.2);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, var(--teal-glow) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, var(--cyan-glow) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, var(--purple-glow) 0%, transparent 50%);
+            z-index: 0;
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px var(--teal-glow);
+        }
+
+        .nav-title {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            color: var(--bg-primary);
+            border-color: transparent;
+            box-shadow: 0 0 20px var(--teal-glow);
+        }
+
+        /* Language toggle */
+        .lang-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--teal);
+            color: var(--bg-primary);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid var(--teal);
+            border-radius: 24px;
+            color: var(--teal);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--teal-glow); }
+            50% { box-shadow: 0 0 20px 5px var(--teal-glow); }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--teal) 50%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        .hero-urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 2.2;
+        }
+
+        /* Section */
+        .section {
+            margin: 60px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--cyan), var(--purple));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--teal);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--teal-glow);
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-emoji {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .feature-name {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .feature-urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.8;
+        }
+
+        /* Tools Table */
+        .tools-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .tools-table th {
+            background: rgba(20, 184, 166, 0.1);
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tools-table td {
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .tools-table tr:hover td {
+            background: rgba(20, 184, 166, 0.05);
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-firebase { background: rgba(255, 152, 0, 0.15); color: #ff9800; }
+        .badge-flutter { background: rgba(2, 119, 189, 0.15); color: #4fc3f7; }
+        .badge-gps { background: rgba(76, 175, 80, 0.15); color: #66bb6a; }
+        .badge-media { background: rgba(156, 39, 176, 0.15); color: #ce93d8; }
+        .badge-ui { background: rgba(233, 30, 99, 0.15); color: #f48fb1; }
+        .badge-util { background: rgba(96, 125, 139, 0.15); color: #90a4ae; }
+
+        /* Architecture */
+        .arch-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 40px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+        }
+
+        .arch-node {
+            padding: 16px 24px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(34, 211, 238, 0.1));
+            border: 1px solid var(--teal);
+            border-radius: 12px;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s;
+        }
+
+        .arch-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--teal-glow);
+        }
+
+        .arch-node-icon { font-size: 28px; }
+        .arch-node-label { font-size: 13px; font-weight: 600; margin-top: 6px; }
+
+        .arch-arrow {
+            font-size: 24px;
+            color: var(--teal);
+            animation: arrowBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        /* File tree */
+        .file-tree {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            backdrop-filter: blur(20px);
+            overflow-x: auto;
+        }
+
+        .file-tree .folder { color: var(--cyan); font-weight: 600; }
+        .file-tree .file { color: var(--text-primary); }
+        .file-tree .comment { color: var(--text-muted); font-style: italic; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--teal);
+            box-shadow: 0 0 20px var(--teal-glow);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: var(--teal);
+            text-decoration: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 4px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .nav { flex-direction: column; gap: 16px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .arch-flow { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+        }
+
+        /* Tab content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">📸</div>
+                <span class="nav-title">DataCaptureMVP</span>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showTab('overview')" href="#">Overview</a>
+                <a class="nav-link" onclick="showTab('features')" href="#">Features</a>
+                <a class="nav-link" onclick="showTab('tools')" href="#">Tools</a>
+                <a class="nav-link" onclick="showTab('architecture')" href="#">Architecture</a>
+                <a class="nav-link" onclick="showTab('guide')" href="#">Edit Guide</a>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="toggleLang('en')">EN</button>
+                <button class="lang-btn" onclick="toggleLang('ur')">اردو</button>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-badge">🚀 Flutter + Firebase MVP</div>
+            <h1>DataCaptureMVP</h1>
+            <p>A production-ready mobile application for capturing field data — photos and videos — with automatic GPS location, real-time watermarking, categorization, and a powerful admin dashboard.</p>
+            <p class="hero-urdu">فیلڈ ڈیٹا کیپچر کے لیے ایک مکمل موبائل ایپلیکیشن — تصاویر اور ویڈیوز خودکار GPS لوکیشن، ریئل ٹائم واٹر مارکنگ، زمرہ بندی، اور ایڈمن ڈیش بورڈ کے ساتھ۔</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Dart Files / ڈارٹ فائلز</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Dependencies / پیکیجز</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Screens / سکرینز</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Services / سروسز</div>
+            </div>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">📁</div>
+                    <h2 class="section-title">Project Structure / پروجیکٹ کا ڈھانچہ</h2>
+                </div>
+                <div class="file-tree">
+                    <span class="folder">DataCaptureMVP/</span><br>
+                    ├── <span class="folder">lib/</span><br>
+                    │   ├── <span class="file">main.dart</span> <span class="comment">← App entry point / مرکزی فائل</span><br>
+                    │   ├── <span class="folder">models/</span><br>
+                    │   │   └── <span class="file">upload_model.dart</span> <span class="comment">← Data model / ڈیٹا ماڈل</span><br>
+                    │   ├── <span class="folder">screens/</span><br>
+                    │   │   ├── <span class="file">home_screen.dart</span> <span class="comment">← Home / ہوم سکرین</span><br>
+                    │   │   ├── <span class="file">capture_screen.dart</span> <span class="comment">← Capture / کیپچر سکرین</span><br>
+                    │   │   ├── <span class="file">preview_screen.dart</span> <span class="comment">← Preview & Upload / پیش نظارہ</span><br>
+                    │   │   ├── <span class="file">success_screen.dart</span> <span class="comment">← Success / کامیابی</span><br>
+                    │   │   ├── <span class="file">admin_login_screen.dart</span> <span class="comment">← Admin Login / ایڈمن لاگ ان</span><br>
+                    │   │   └── <span class="file">admin_dashboard_screen.dart</span> <span class="comment">← Dashboard / ڈیش بورڈ</span><br>
+                    │   ├── <span class="folder">services/</span><br>
+                    │   │   ├── <span class="file">firebase_service.dart</span> <span class="comment">← Firebase operations</span><br>
+                    │   │   ├── <span class="file">media_service.dart</span> <span class="comment">← Camera & Gallery</span><br>
+                    │   │   ├── <span class="file">location_service.dart</span> <span class="comment">← GPS Location</span><br>
+                    │   │   └── <span class="file">watermark_service.dart</span> <span class="comment">← Watermarking</span><br>
+                    │   └── <span class="folder">scripts/</span><br>
+                    │       └── <span class="file">generate_logo.dart</span> <span class="comment">← Logo generator</span><br>
+                    ├── <span class="folder">DOCS/</span> <span class="comment">← Documentation / دستاویزات</span><br>
+                    ├── <span class="folder">assets/</span><br>
+                    │   └── <span class="file">logo.png</span> <span class="comment">← App icon / ایپ آئیکون</span><br>
+                    └── <span class="file">pubspec.yaml</span> <span class="comment">← Dependencies / ڈیپنڈنسیز</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Features -->
+        <div id="tab-features" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">⚡</div>
+                    <h2 class="section-title">Features / خصوصیات</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-emoji">📸</div>
+                        <div class="feature-name">Media Capture</div>
+                        <div class="feature-desc">Take photos and videos with camera or pick from gallery with automatic quality optimization.</div>
+                        <div class="feature-urdu">کیمرہ یا گیلری سے فوٹو اور ویڈیو لیں، خودکار کوالٹی کے ساتھ۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">📍</div>
+                        <div class="feature-name">GPS Location</div>
+                        <div class="feature-desc">Automatic high-precision GPS coordinates capture at the time of media recording.</div>
+                        <div class="feature-urdu">میڈیا ریکارڈنگ کے وقت خودکار GPS مقام حاصل ہوتا ہے۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">🔖</div>
+                        <div class="feature-name">Watermarking</div>
+                        <div class="feature-desc">GPS coordinates and timestamp are overlaid on photos and videos automatically.</div>
+                        <div class="feature-urdu">فوٹو اور ویڈیو پر GPS اور وقت خودکار لکھا جاتا ہے۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">🏷️</div>
+                        <div class="feature-name">Categorization</div>
+                        <div class="feature-desc">Organize captures by Category (Incident, Observation, Maintenance) and Severity (Low, Medium, High).</div>
+                        <div class="feature-urdu">زمرہ اور شدت کے مطابق ترتیب دیں۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">📝</div>
+                        <div class="feature-name">Tags & Notes</div>
+                        <div class="feature-desc">Add custom tags (Safety, Environment, Equipment, Personnel) and detailed notes.</div>
+                        <div class="feature-urdu">اپنی مرضی کے ٹیگز اور تفصیلی نوٹس شامل کریں۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">☁️</div>
+                        <div class="feature-name">Cloud Upload</div>
+                        <div class="feature-desc">Media and metadata are securely uploaded to Firebase Storage and Firestore.</div>
+                        <div class="feature-urdu">میڈیا اور ڈیٹا Firebase پر محفوظ طریقے سے اپلوڈ ہوتا ہے۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">👤</div>
+                        <div class="feature-name">Authentication</div>
+                        <div class="feature-desc">Anonymous login for field users, Email/Password authentication for administrators.</div>
+                        <div class="feature-urdu">عام صارفین بغیر اکاؤنٹ، ایڈمن ای میل/پاسورڈ سے لاگ ان۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">📊</div>
+                        <div class="feature-name">Admin Dashboard</div>
+                        <div class="feature-desc">View, filter, and manage all uploads. View locations on Google Maps, download media files.</div>
+                        <div class="feature-urdu">تمام اپلوڈز دیکھیں، فلٹر کریں، نقشے پر مقام دیکھیں۔</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">🗺️</div>
+                        <div class="feature-name">Map Integration</div>
+                        <div class="feature-desc">View exact capture locations on Google Maps with one tap from admin dashboard.</div>
+                        <div class="feature-urdu">ایڈمن ڈیش بورڈ سے ایک ٹیپ پر Google Maps میں مقام دیکھیں۔</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Tools -->
+        <div id="tab-tools" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">🛠️</div>
+                    <h2 class="section-title">Tools & Packages / ٹولز اور پیکیجز</h2>
+                </div>
+                <table class="tools-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Package / پیکیج</th>
+                            <th>Version</th>
+                            <th>Category</th>
+                            <th>Purpose / مقصد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>firebase_core</strong></td>
+                            <td>^3.10.1</td>
+                            <td><span class="tool-badge badge-firebase">Firebase</span></td>
+                            <td>Firebase initialization / فائربیس شروع کرنا</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>firebase_auth</strong></td>
+                            <td>^5.4.1</td>
+                            <td><span class="tool-badge badge-firebase">Firebase</span></td>
+                            <td>User authentication / صارف کی توثیق</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>cloud_firestore</strong></td>
+                            <td>^5.6.1</td>
+                            <td><span class="tool-badge badge-firebase">Firebase</span></td>
+                            <td>NoSQL database / ڈیٹا بیس</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>firebase_storage</strong></td>
+                            <td>^12.4.10</td>
+                            <td><span class="tool-badge badge-firebase">Firebase</span></td>
+                            <td>Media file storage / میڈیا اسٹوریج</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>image_picker</strong></td>
+                            <td>^1.1.2</td>
+                            <td><span class="tool-badge badge-media">Media</span></td>
+                            <td>Camera & gallery access / کیمرہ اور گیلری</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><strong>video_player</strong></td>
+                            <td>^2.9.2</td>
+                            <td><span class="tool-badge badge-media">Media</span></td>
+                            <td>Video playback / ویڈیو چلانا</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><strong>geolocator</strong></td>
+                            <td>^13.0.2</td>
+                            <td><span class="tool-badge badge-gps">GPS</span></td>
+                            <td>GPS location services / GPS لوکیشن</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><strong>google_maps_flutter</strong></td>
+                            <td>^2.10.0</td>
+                            <td><span class="tool-badge badge-gps">GPS</span></td>
+                            <td>In-app maps / ایپ کے اندر نقشہ</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td><strong>watermark_kit</strong></td>
+                            <td>^2.2.0</td>
+                            <td><span class="tool-badge badge-media">Media</span></td>
+                            <td>Video watermarking / ویڈیو واٹر مارک</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td><strong>image</strong></td>
+                            <td>^4.3.0</td>
+                            <td><span class="tool-badge badge-media">Media</span></td>
+                            <td>Image processing / تصویر پروسیسنگ</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td><strong>provider</strong></td>
+                            <td>^6.1.2</td>
+                            <td><span class="tool-badge badge-flutter">Flutter</span></td>
+                            <td>State management / اسٹیٹ مینجمنٹ</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td><strong>go_router</strong></td>
+                            <td>^14.6.3</td>
+                            <td><span class="tool-badge badge-ui">UI</span></td>
+                            <td>Navigation / نیویگیشن</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td><strong>intl</strong></td>
+                            <td>^0.19.0</td>
+                            <td><span class="tool-badge badge-util">Utility</span></td>
+                            <td>Date formatting / تاریخ فارمیٹنگ</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td><strong>url_launcher</strong></td>
+                            <td>^6.3.1</td>
+                            <td><span class="tool-badge badge-util">Utility</span></td>
+                            <td>Open URLs / لنکس کھولنا</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td><strong>path_provider</strong></td>
+                            <td>^2.1.5</td>
+                            <td><span class="tool-badge badge-util">Utility</span></td>
+                            <td>File paths / فائل پاتھ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab: Architecture -->
+        <div id="tab-architecture" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">🏗️</div>
+                    <h2 class="section-title">Architecture / فن تعمیر</h2>
+                </div>
+                <h3 style="color: var(--teal); margin-bottom: 20px;">Application Flow / ایپلیکیشن کا بہاؤ</h3>
+                <div class="arch-flow">
+                    <div class="arch-node">
+                        <div class="arch-node-icon">🏠</div>
+                        <div class="arch-node-label">Home Screen<br><small>ہوم سکرین</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">📸</div>
+                        <div class="arch-node-label">Capture<br><small>کیپچر</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">📍🔖</div>
+                        <div class="arch-node-label">GPS + Watermark<br><small>مقام + واٹر مارک</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">👁️</div>
+                        <div class="arch-node-label">Preview<br><small>پیش نظارہ</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">☁️</div>
+                        <div class="arch-node-label">Firebase Upload<br><small>اپلوڈ</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">✅</div>
+                        <div class="arch-node-label">Success<br><small>کامیابی</small></div>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--purple); margin: 40px 0 20px;">Admin Flow / ایڈمن بہاؤ</h3>
+                <div class="arch-flow">
+                    <div class="arch-node" style="border-color: var(--purple);">
+                        <div class="arch-node-icon">🔐</div>
+                        <div class="arch-node-label">Admin Login<br><small>ایڈمن لاگ ان</small></div>
+                    </div>
+                    <div class="arch-arrow" style="color: var(--purple);">→</div>
+                    <div class="arch-node" style="border-color: var(--purple);">
+                        <div class="arch-node-icon">📊</div>
+                        <div class="arch-node-label">Dashboard<br><small>ڈیش بورڈ</small></div>
+                    </div>
+                    <div class="arch-arrow" style="color: var(--purple);">→</div>
+                    <div class="arch-node" style="border-color: var(--purple);">
+                        <div class="arch-node-icon">🔍</div>
+                        <div class="arch-node-label">Filter & View<br><small>فلٹر اور دیکھیں</small></div>
+                    </div>
+                    <div class="arch-arrow" style="color: var(--purple);">→</div>
+                    <div class="arch-node" style="border-color: var(--purple);">
+                        <div class="arch-node-icon">🗺️⬇️</div>
+                        <div class="arch-node-label">Map / Download<br><small>نقشہ / ڈاؤنلوڈ</small></div>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--cyan); margin: 40px 0 20px;">Service Layer / سروس لیئر</h3>
+                <div class="features-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                    <div class="feature-card">
+                        <div class="feature-emoji">🔥</div>
+                        <div class="feature-name">FirebaseService</div>
+                        <div class="feature-desc">Auth • Storage • Firestore operations</div>
+                        <div class="feature-urdu">توثیق • اسٹوریج • ڈیٹا بیس آپریشنز</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">📸</div>
+                        <div class="feature-name">MediaService</div>
+                        <div class="feature-desc">Camera & gallery image/video capture</div>
+                        <div class="feature-urdu">کیمرہ اور گیلری سے میڈیا حاصل کرنا</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">📍</div>
+                        <div class="feature-name">LocationService</div>
+                        <div class="feature-desc">GPS coordinates & permission handling</div>
+                        <div class="feature-urdu">GPS مقام اور اجازت نامے</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-emoji">🔖</div>
+                        <div class="feature-name">WatermarkService</div>
+                        <div class="feature-desc">Photo & video watermark overlay</div>
+                        <div class="feature-urdu">فوٹو اور ویڈیو پر واٹر مارک</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Edit Guide -->
+        <div id="tab-guide" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">✏️</div>
+                    <h2 class="section-title">Editing Guide / تبدیلی کا طریقہ</h2>
+                </div>
+
+                <div class="features-grid" style="grid-template-columns: 1fr;">
+                    <div class="feature-card">
+                        <div class="feature-name">🔧 Firebase Configuration تبدیل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/main.dart</code> (Lines 23-30)<br>
+                            اپنی Firebase Console سے API Key, Project ID, App ID وغیرہ حاصل کر کے اس فائل میں ڈالیں۔<br>
+                            اینڈرائیڈ کے لیے <code>android/app/google-services.json</code> بھی بدلیں۔
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">📸 Image Quality / ویڈیو Duration تبدیل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/services/media_service.dart</code><br>
+                            <code>imageQuality: 80</code> → 100 (بہتر کوالٹی)<br>
+                            <code>maxDuration: Duration(seconds: 30)</code> → 60 (لمبی ویڈیو)
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">📍 GPS Accuracy تبدیل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/services/location_service.dart</code><br>
+                            <code>LocationAccuracy.high</code> → <code>LocationAccuracy.best</code><br>
+                            ٹائم آؤٹ شامل کریں: <code>timeLimit: Duration(seconds: 15)</code>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">🔖 Watermark Text / Position تبدیل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/services/watermark_service.dart</code><br>
+                            واٹر مارک ٹیکسٹ، رنگ، پوزیشن، اور شفافیت تبدیل کر سکتے ہیں۔<br>
+                            تصاویر: <code>img.drawString()</code> — ویڈیوز: <code>composeVideo(anchor:)</code>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">🏷️ Categories / Tags تبدیل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/screens/capture_screen.dart</code> (Lines 30-32)<br>
+                            <code>_categories</code> لسٹ میں نئے زمرے شامل کریں<br>
+                            <code>_availableTags</code> لسٹ میں نئے ٹیگز شامل کریں
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">📊 نئی فیلڈ ڈیٹا ماڈل میں شامل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/models/upload_model.dart</code><br>
+                            1. ماڈل میں نئی فیلڈ شامل کریں<br>
+                            2. <code>toMap()</code> اور <code>fromMap()</code> میں بھی شامل کریں<br>
+                            3. Capture اور Preview سکرینز میں UI شامل کریں
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-name">🧭 نئی سکرین/راؤٹ شامل کرنا</div>
+                        <div class="feature-desc" style="margin-top:12px;">
+                            <strong>File:</strong> <code>lib/main.dart</code> (Routes section)<br>
+                            نئی <code>GoRoute()</code> شامل کریں<br>
+                            نیویگیشن: <code>context.push('/your-path')</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📱 <strong>DataCaptureMVP</strong> — Built with Flutter + Firebase</p>
+            <p style="margin-top: 8px;">Author: <a href="#">Zeeshan</a> | License: MIT</p>
+            <p style="margin-top: 8px; font-family: 'Noto Nastaliq Urdu', serif; direction: rtl;">فلٹر اور فائربیس سے بنایا گیا — زیشان</p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleLang(lang) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const urduElements = document.querySelectorAll('.feature-urdu, .hero-urdu');
+            urduElements.forEach(el => {
+                el.style.display = lang === 'ur' ? 'block' : (lang === 'en' ? 'none' : 'block');
+            });
+
+            if (lang === 'ur') {
+                urduElements.forEach(el => el.style.display = 'block');
+            }
+            if (lang === 'en') {
+                urduElements.forEach(el => el.style.display = 'none');
+            }
+        }
+    </script>
+</body>
+</html>
