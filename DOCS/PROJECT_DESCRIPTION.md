@@ -20,6 +20,12 @@
 - 👤 **صارف کی توثیق** — عام صارفین بغیر نام لاگ ان، ایڈمن ای میل/پاسورڈ سے
 - 📊 **ایڈمن ڈیش بورڈ** — تمام اپلوڈز دیکھیں، فلٹر کریں، نقشے پر مقام دیکھیں، میڈیا ڈاؤنلوڈ کریں
 
+### 📱 سکرین شاٹس / Screenshots
+
+| ہوم سکرین / Home | کیپچر سکرین / Capture | ایڈمن ڈیش بورڈ / Admin |
+|:---:|:---:|:---:|
+| ![Home](ASSETS/screenshot_home.png) | ![Capture](ASSETS/screenshot_capture.png) | ![Admin](ASSETS/screenshot_admin.png) |
+
 ### استعمال کے مواقع
 - فیلڈ ڈیٹا اکٹھا کرنا (انسپیکشن، سروے)
 - واقعات کی رپورٹنگ
@@ -80,6 +86,12 @@ DataCaptureMVP is a **production-ready MVP** built with **Flutter** for capturin
 | 👤 Authentication | Anonymous (users) + Email/Password (admin) |
 | 📊 Admin Dashboard | View, filter, map, download all uploads |
 | 🗺️ Google Maps | View capture locations on map |
+
+### 📱 App Screenshots
+
+| Home Screen | Capture Screen | Admin Dashboard |
+|:---:|:---:|:---:|
+| ![Home](ASSETS/screenshot_home.png) | ![Capture](ASSETS/screenshot_capture.png) | ![Admin](ASSETS/screenshot_admin.png) |
 
 ### Technology Stack
 

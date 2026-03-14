@@ -16,7 +16,9 @@ A Flutter-based mobile application for capturing photos and videos with GPS loca
 
 ## 📱 Screenshots
 
-[Add screenshots here]
+| Home Screen | Capture Screen | Admin Dashboard |
+|:---:|:---:|:---:|
+| ![Home](DOCS/ASSETS/screenshot_home.png) | ![Capture](DOCS/ASSETS/screenshot_capture.png) | ![Admin](DOCS/ASSETS/screenshot_admin.png) |
 
 ## 🛠️ Technology Stack
 
