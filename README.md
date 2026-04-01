@@ -95,11 +95,33 @@ To get a local copy up and running, follow these simple steps:
 
 ---
 
+## 💼 Business Inquiries & Hiring
+
+Are you a **CEO, Business Owner, or Project Manager** looking to digitalize your field operations? **DataCaptureMVP** is a powerful template that can be fully customized to suit your unique business requirements.
+
+### 🚀 Industrial Use Cases:
+*   **Construction & Engineering:** Monitor site progress and safety compliance with GPS-verified media.
+*   **Facility Management:** Real-time reporting of maintenance issues and equipment status.
+*   **Logistics & Supply Chain:** Document cargo condition and delivery milestones securely.
+*   **Security & Auditing:** Incident reporting with unforgeable location and time stamps.
+*   **Infrastructure Inspection:** Track repairs and inspections for energy, water, or telecom sectors.
+
+### 👔 Hire Me for Your Company
+Beyond this project, I am available for **Custom Software Development** and can be **Hired as an IT Specialist/Lead** to manage your company's digital transformation. I specialize in building scalable mobile & web ecosystems using Flutter, Firebase, and modern cloud technologies.
+
+*   **Customization:** I can tailor this app specifically for your workflow.
+*   **Full-Stack Solutions:** From mobile apps to professional admin dashboards.
+*   **IT Consultation:** Expert advice on the best tech stack for your business.
+
+---
+
 ## 👨‍💻 Developer Information
 
 This project is meticulously crafted to meet international software engineering standards. I am open to queries, collaborations, and contract opportunities worldwide.
 
-**Developer / Manger:** Zeeshan Sarwar (ذیشان سرور)  
+**Developer / Manager:** Zeeshan Sarwar (ذیشان سرور)  
 **Contact / WhatsApp:** +92 332 300 1003  
+**GitHub:** [zeeshansarwar1986](https://github.com/zeeshansarwar1986)
 
 *Thank you for exploring DataCaptureMVP. Happy Coding! 🚀*
+
